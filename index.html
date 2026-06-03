@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://googleapis.com" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Click me </title>
+  <style>
+        /* Base de la pantalla */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #1a0121;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Fondo degradado */
+        .container {
+            background-image: linear-gradient(#250230, #000);
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            transition: opacity 0.5s ease; /* Para la animación de salida */
+        }
+
+        /* Contenedor central que alinea el título y el botón */
+        .contenido-interactivo {
+            width: 100%;
+            height: 100%;
+            display: flex;         
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center;     
+            position: relative;
+            z-index: 10; 
+            transition: all 0.5s ease; /* Para la animación de salida */
+        }
+
+        /* Animación de entrada para el contenido */
+        body {
+            animation: aparecer 0.5s ease forwards;
+        }
+
+        @keyframes aparecer {
+            0% {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Animación de salida al hacer clic */
+        .salida-activa {
+            opacity: 0 !important;
+            transform: translateX(-50px) !important;
+        }
+
+        .titulo {
+            color: white;
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            text-shadow:
+                0 0 10px #ae00ff,   
+                0 0 20px #ff00ff,   
+                0 0 40px #ff00ff,   
+                0 0 80px #aa00ff;    
+        }
+
+        .boton-img {
+            width: 120px;
+            cursor: pointer;
+            transition: transform 0.2s; 
+            mix-blend-mode: lighten; 
+        }
+
+        .boton-img:hover {
+            transform: scale(1.1); 
+        }
+
+        .boton-img:active {
+            transform: scale(0.95);
+        }
+
+        /* CAPA DE LOS CORAZONES: Ocupa todo el ancho real */
+        #heart-container {
+            position: fixed;
+            top: 0;
+            left: 0;           
+            width: 100vw;      
+            height: 100vh;     
+            pointer-events: none; 
+            z-index: 999; 
+        }
+
+        /* Estilo individual de cada corazón */
+        .heart {
+            position: absolute;
+            bottom: -60px; 
+            color: #ff4d6d;
+            filter: drop-shadow(0 0 5px #ff4d6d);
+            user-select: none;
+            animation: floatUp linear forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8; 
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-125vh) rotate(360deg);
+                opacity: 0; 
+            }
+        }
+  </style>
+</head>
+
+<body>
+
+  <!-- Fondo morado -->
+  <div class="container" id="fondo-degradado"></div>
+
+  <!-- Interfaz centrada -->
+  <div class="contenido-interactivo" id="interfaz-visual">
+    <div id="follow">
+      <h1 class="titulo">Click our hands</h1>
+    </div>
+    <img src="boton.png" class="boton-img" onclick="irAPantalla()" alt="Botón">
+  </div>
+
+  <!-- Contenedor independiente para los corazones flotantes -->
+  <div id="heart-container"></div>
+
+  <script>
+    const container = document.getElementById('heart-container');
+
+    // Lógica de los corazones flotantes por toda la pantalla
+    function createHeart() {
+        if (!container) return;
+
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        
+        const randomLeft = Math.random() * 95;
+        heart.style.left = randomLeft + "%";
+        
+        const size = Math.random() * 15 + 15;
+        heart.style.fontSize = size + "px";
+        
+        const duration = Math.random() * 3 + 4;
+        heart.style.animationDuration = duration + "s";
+
+        container.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, duration * 1000);
+    }
+
+    setInterval(createHeart, 400);
+
+    // FUNCIÓN DEL BOTÓN: Activa tu animación de salida y cambia de pantalla
+    function irAPantalla() {
+        const interfaz = document.getElementById('interfaz-visual');
+        const fondo = document.getElementById('fondo-degradado');
+        
+        // Ejecuta tu animación de salida desplazando el contenido a la izquierda
+        interfaz.classList.add('salida-activa');
+        fondo.classList.add('salida-activa');
+
+        // Espera 500ms (lo que dura la animación) y cambia a la siguiente página
+        setTimeout(() => {
+            // REEMPLAZA "TU_PAGINA.html" por el nombre de tu archivo destino real (ej: "destino.html")
+            window.location.href = "pantalla2.html"; 
+        }, 500);
+    }
+  </script>
+</body>
+
+</html>
