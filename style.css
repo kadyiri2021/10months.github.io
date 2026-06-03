@@ -1,0 +1,88 @@
+body, html {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #1a0121;
+}
+
+.container {
+    background-image: linear-gradient( #250230, #000);
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+}  
+/* salida */
+body.salida {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+/* entrada */
+body.entrada {
+  opacity: 0;
+  transform: translateX(50px);
+  animation: aparecer 0.5s ease forwards;
+}
+
+@keyframes aparecer {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.boton-img {
+    width: 120px;
+    cursor: pointer;
+    transition: transform 0.2s; 
+    /* Cambiado a lighten para camuflar mejor el fondo negro si no es transparente */
+    mix-blend-mode: lighten; 
+    position: relative;
+    z-index: 10;
+    }
+/* imagen botón */
+
+.boton-img:hover {
+  transform: scale(1.1);
+}
+
+.boton-img:active {
+  transform: scale(0.95);
+}
+
+#heart-container {
+    position: fixed;
+    top: 0;
+    left: 0;           /* Asegura que empiece desde la izquierda */
+    width: 100vw;      /* Ocupa todo el ancho de la ventana */
+    height: 100vh;     /* Ocupa todo el alto de la ventana */
+    pointer-events: none;
+    z-index: 999; 
+    display:block !important;       /* Muévelo detrás del botón si prefieres */
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px; /* Esto permite que el "left" aleatorio funcione */
+    color: #ff4d6d;
+    filter: drop-shadow(0 0 5px #ff4d6d);
+    user-select: none;
+    animation: floatUp linear forwards;
+     opacity: 0.6; 
+}
+@keyframes floatUp {
+    0% {
+        transform:  translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.4; /* Se desvanecen suavemente al aparecer */
+    }
+    90% {
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0; /* Desaparecen al llegar arriba */
+    }
+}
